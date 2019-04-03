@@ -70,14 +70,52 @@ class rng(object):
 	#end rand_num()
 #end rng()
 
-def romb_int(f,h,x,m):
-# Integrates using the romber technique
-	
+def central_diff(f,h,x):
+# Calculates the central difference\n",
+    return (f(x+h)-f(x-h))/(2*h) 
+#end central_diff()
 
+def ridders_diff(f,x):
+# Differentiates using Ridder's method
+    m = 10
+    D = np.zeros((m,len(x)))
+    d = 2
+    h = 0.001
+    for i in range(m):
+        D_new = D      
+        for j in range(i+1):    
+            if j == 0:
+                D_new[j] = central_diff(f,h,x)
+            else:
+                D_new[j] = (d**(2*(j+1))*D[j-1]-D_new[j-1])/(d**(2*(j+1))-1)  
+        D = D_new    
+        h = h/d
+        #print(D[i])
+    return D[m-1]
+#end ridders_diff()
 
-	return
+def comp_trapezoid(f,a,b,n):
+# Composite trapezoid rule used in romber_int()
+    h = 1/(2**(n-1))*(b-a)
+    sum = 0
+    for i in range(1,2**(n-1)):
+        sum += f(a+i*h)
+    return (h/2.)*(f(a)+2*sum+f(b))
+#end comp_trapezoid()
 
-
+def romber_int(f,a,b):
+# Integrates from a to b up to an accuracy of 6 decimals
+    for n in range(1,10):
+        S_new = np.zeros((n))
+        S_new[0] = comp_trapezoid(f,a,b,n)
+        for j in range(2,n+1):
+            S_new[j-1] = (4**(j-1)*S_new[j-2]-S[j-2])/(4**(j-1)- 1)
+        S = S_new
+        if n > 3:
+            if abs(S[-2]-S[-1]) < 1e-6:
+                return S[-1]
+    return S[-1]
+# end romber_int()
 
 						
 
