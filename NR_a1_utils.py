@@ -132,9 +132,45 @@ def rejection_sampler(n,p,max_x,max_y,rng):
 	return sample_x,sample_y
 #end rejection_sampler
 
+def secant_rootfinder(f,a,b):
+# Secant method root-finder
+    it = 0
+    while np.abs(b-a) > 0.00001: 
+        it += 1
+        c = -(b-a)/float((f(b)-f(a)))*f(a)+a
+        a = b
+        b = c
+    return a
+#end secant
 
+def falspos_rootfinder(f,a,b):
+# False position method root-finder
+    it = 0
+    c = 0
+    while np.abs(b-a) > 0.001: 
+        it += 1
+        c = -(b-a)/float((f(b)-f(a)))*f(a)+a
+        print('a',a,', b',b)
+        print('c',c)
+        if f(a)*f(c) > 0:
+            a = c
+        else:
+            b = c
+    return c,it 
+#end falspos_rootfiner()
 
-						
+def NewRaph_rootfinder(f,a,b):
+    x = a 
+    x_new = sys.maxsize
+    for i in range(1000):
+        f_deriv = ridders_diff(f,np.array([x]))
+        x_new = x - f(x)/f_deriv
+        if abs(x_new-x) < 1e-12:
+            return x_new
+        else:
+            x = x_new 
+    return x 
+#end NewRaph_rootfinder()						
 
 
 	
