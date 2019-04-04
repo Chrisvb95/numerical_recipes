@@ -115,7 +115,24 @@ def romber_int(f,a,b):
             if abs(S[-2]-S[-1]) < 1e-6:
                 return S[-1]
     return S[-1]
-# end romber_int()
+#end romber_int()
+
+def rejection_sampler(n,p,max_x,max_y,rng):
+# Rejection sampler that uses max_y value as g
+	sample_x = []
+	sample_y = []
+	n_accpt = 0
+	while n_accpt < n:
+		pot_x = np.float(rng.rand_num(1,max=max_x))
+		pot_y = np.float(rng.rand_num(1,max=max_y))
+		if pot_y <= p(pot_x):
+			sample_x.append(pot_x)
+			sample_y.append(pot_y)
+			n_accpt += 1
+	return sample_x,sample_y
+#end rejection_sampler
+
+
 
 						
 

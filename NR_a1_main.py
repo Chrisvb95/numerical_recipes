@@ -1,7 +1,7 @@
 #NR_a1_main.py
-
 import numpy as np 
 import matplotlib.pyplot as plt 
+from mpl_toolkits.mplot3d import Axes3D
 import sys
 import NR_a1_utils as utils 
 from importlib import reload
@@ -47,14 +47,37 @@ print('A = {}; a,b,c = {},{},{}'.format(A,a,b,c))
 
 #--- 2.c --- 
 n = lambda x: A*100*(x/b)**(a-3)*np.exp(-(x/b)**c)
+#plt.plot(x,pn(x))
+#plt.plot(x,g)
+#plt.yscale('log')
+#plt.xlim(0,5)
+#plt.show()
+
 dndx = utils.ridders_diff(n,b)
-print(dndx)
+print('{0:.12f}'.format(float(dndx)))
 x = b 
 dndx_analitic = (A*100) * ((a-3)*(x/b)**(a-4)*np.exp(-(x/b)**c)) + ((x/b)**(a-3)*-(c/x)*(x/b)**c*np.exp(-(x/b)**c))
-print(dndx_analitic)
+print('{0:.12f}'.format(float(dndx_analitic)))
 dndx_analitic = (A*100) * ((a-3)*(x/b)**(a-4)*np.exp(-(x/b)**c))/b - ((c*np.exp(-(x/b)**c)*(x/b)**(a+c-4))/b) 
-print(dndx_analitic)
+print('{0:.12f}'.format(float(dndx_analitic)))
 
 y = lambda x: np.sin(x)
 dydx = utils.ridders_diff(y,np.array([np.pi/4]))
-print(dydx)
+print('{0:.12f}'.format(float(dydx)))
+
+#--- 2.d --- 
+N = 100
+# Drawing random samples from n(x)
+pn = lambda x: (n(x)*4*np.pi*x**2)/100
+x_p = np.linspace(0,5,200)
+g = np.max(pn(x_p)[1:])+0.01
+samples = utils.rejection_sampler(N,pn,5,g,rng)
+r = samples[0]
+# Generating random angles: 
+phi = rng.rand_num(N,min=0,max=2*np.pi)
+theta = np.arccos(2*rng.rand_num(N)-1)
+x,y,z = r*np.sin(theta)*np.cos(phi),r*np.sin(theta)*np.sin(phi),r*np.cos(theta)
+# Plotting positions for N galaxies
+ax = plt.figure().add_subplot(111,projection='3d')
+ax.scatter(x,y,z)
+plt.show()
