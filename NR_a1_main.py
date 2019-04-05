@@ -135,3 +135,17 @@ plt.axvline(x=int(len(sr)/2-0.5))
 plt.axvline(x=round(len(sr)*0.16)-1)
 plt.axvline(round(len(sr)*0.84)-1)
 plt.show()
+
+#--- 2.h --- 
+al = np.linspace(1.1,2.5,15)
+bl = np.linspace(0.5,2,16)
+cl = np.linspace(1.5,4,26)
+param = np.array((al,bl,cl))
+Al = np.zeros([len(al),len(bl),len(cl)])
+for i in range(len(al)):
+    for j in range(len(bl)):
+        for k in range(len(cl)):
+            Al[i][j][k] = utils.A_calc(al[i],bl[j],cl[k])
+
+interpol = utils.trilinear_interpolator(al,bl,cl,Al,2.05,1.05,3.05)
+print(interpol)

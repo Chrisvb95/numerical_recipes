@@ -38,7 +38,7 @@ def poisson_distribution_new(mean,k):
 # TO DO: Allow it to handle fact > sys.maxsize
 
 class rng(object):
-	"""docstring for rng"""
+# rng object that is initiated with a give seed
 	def __init__(self, seed):
 		self.state = np.int64(seed) 
 
@@ -189,6 +189,45 @@ def selection_sort(l):
         l = l[:min]+l[(min+1):]
     return sl
 #end selection_sort()
+
+def A_calc(a,b,c):
+# Calculates A with given values of a,b,c
+    f = lambda x: 4*np.pi* (x**(a-1))/(b**(a-3)) *np.exp(-(x/b)**c)
+    f_int = romber_int(f,0,5)
+    return 1/f_int
+#end A_calc()
+
+def trilinear_interpolator(al,bl,cl,Al,x,y,z):
+# Returns an interpolated value for Al based on a,b,c values
+    def bracket_finder(xl,x):
+        for i in range(len(xl)):
+            if xl[i] > x:
+                return xl[i-1],xl[i],i
+        print('Could not find a backet, returning nan.')
+        return float('nan'),float('nan')
+
+    a0,a1,ai = bracket_finder(al,x)
+    b0,b1,bi = bracket_finder(bl,y)
+    c0,c1,ci = bracket_finder(cl,z)
+
+    print(a0,a1,ai)
+    print(b0,b1,bi)
+    print(c0,c1,ci)
+
+    xd = (x-a0)/(a1-a0)
+    yd = (y-b0)/(b1-b0)
+    zd = (y-c0)/(c1-c0)
+
+    c00 = Al[ai-1][bi-1][ci-1]*(1-xd)+Al[ai][bi-1][ci-1]*xd
+    c01 = Al[ai-1][bi-1][ci]*(1-xd)+Al[ai][bi-1][ci]*xd
+    c10 = Al[ai-1][bi][ci-1]*(1-xd)+Al[ai][bi][ci-1]*xd
+    c11 = Al[ai-1][bi][ci]*(1-xd)+Al[ai][bi][ci]*xd
+
+    c0 = c00*(1-yd)+c10*yd
+    c1 = c01*(1-yd)+c11*yd
+
+    return c0*(1-zd)+c1*zd
+#end trilinear_interpolator()
 
 # --- Simple supporting functions --- 
 
