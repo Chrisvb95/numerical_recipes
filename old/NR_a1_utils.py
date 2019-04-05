@@ -1,9 +1,6 @@
 #NR_a1_utils.py
 import numpy as np
 import sys
-import math # Only used for math.isnan() in NewRaph_rootfinder()
-
-# --- Functions used in NR_a1_main --- 
 
 def poisson_distribution(mean,k):
 #Returns probability for given k and mean
@@ -135,95 +132,10 @@ def rejection_sampler(n,p,max_x,max_y,rng):
 	return sample_x,sample_y
 #end rejection_sampler
 
-def secant_rootfinder(f,a,b):
-# Secant method root-finder
-    it = 0
-    while np.abs(b-a) > 0.00001: 
-        it += 1
-        c = -(b-a)/float((f(b)-f(a)))*f(a)+a
-        a = b
-        b = c
-    return a
-#end secant
 
-def falspos_rootfinder(f,a,b):
-# False position method root-finder
-    it = 0
-    c = 0
-    while np.abs(b-a) > 0.001: 
-        it += 1
-        c = -(b-a)/float((f(b)-f(a)))*f(a)+a
-        print('a',a,', b',b)
-        print('c',c)
-        if f(a)*f(c) > 0:
-            a = c
-        else:
-            b = c
-    return c,it 
-#end falspos_rootfiner()
-					
-def NewRaph_rootfinder(f,a,b,rng):
-# Finds root in given range (a,b) for f 
-    x = rng.rand_num(1,min=a,max=b)
-    x_new = sys.maxsize
-    for i in range(1000):
-        f_deriv = ridders_diff(f,np.array([x]))
-        if f_deriv == 0 or math.isnan(f_deriv):
-            x = rng.rand_num(1,min=a,max=b)
-            i = 0
-            continue
-        x_new = x - f(x)/f_deriv
-        if abs(x_new-x) < 1e-12:
-            return x_new
-        else:
-            x = x_new 
-    return x 
-#end NewRaph_rootfinder()
 
-def selection_sort(l):
-# Ascending sorting of l using selection sort
-    sl = []
-    for i in range(len(l)):
-        min = arg_min(l)
-        sl.append(l[min])
-        l = l[:min]+l[(min+1):]
-    return sl
-#end selection_sort()
+						
 
-# --- Simple supporting functions --- 
 
-def min(l):
-    min = 2**64
-    for i in l:
-        if i < min:
-            min = i
-    return min
-#end min()
-
-def arg_min(l):
-    min = 2**64
-    arg = None
-    for i in range(len(l)):
-        if l[i] < min:
-            min = l[i]
-            arg = i
-    return arg
-#end arg_min()
-
-def max(l):
-    max = -2**64
-    for i in l:
-        if i > max:
-            max = i
-    return max
-#end max()
-
-def arg_max(l):
-    max = -2**64
-    arg = None
-    for i in range(len(l)):
-        if l[i] > max:
-            max = l[i]
-            arg = i
-    return arg        
-#end arg_max()
+	
+		

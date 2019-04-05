@@ -26,14 +26,14 @@ rng = utils.rng(seed)
 # Scatter plot
 N = 1000 
 rand = rng.rand_num(N)
-#plt.scatter(rand[:(len(rand)-1)],rand[1:])
-#plt.title('Sequential number plot for {} random numbers with seed {}'.format(1000,seed))
-#plt.show()
+plt.scatter(rand[:(len(rand)-1)],rand[1:])
+plt.title('Sequential number plot for {} random numbers with seed {}'.format(1000,seed))
+plt.show()
 # Histogram
 N = 1000000
 rand = rng.rand_num(N)
-#plt.hist(rand,bins=20,range=(0,1))
-#plt.show()
+plt.hist(rand,bins=20,range=(0,1))
+plt.show()
 
 #--- 2.a --- 
 a = rng.rand_num(1,min=1.1,max=2.5)
@@ -72,19 +72,19 @@ ax.scatter(x,y,z)
 plt.show()
 
 #--- 2.e --- 
-'''
+
 N = 100000
 samples = utils.rejection_sampler(N,pn,5,g,rng)
 r = samples[0]
-bins = np.logspace(np.log10(1e-4),np.log10(xmax),num=20)
-plt.hist(r,bins=bins,range=(1e-4,xmax),density=True)
+bins = np.logspace(np.log10(1e-4),np.log10(xmax),num=21)
+plt.hist(r,bins=bins,density=True)
 plt.plot(bins,pn(bins))
 plt.yscale('log')
 plt.xscale('log')
 plt.show()
-'''
+
 #--- 2.f --- 
-x = np.linspace(0,xmax*2,500)
+x = np.linspace(0,xmax*2,10000)
 plt.plot(x,2*pn(x))
 #plt.yscale('log')
 #plt.xscale('log')
@@ -98,8 +98,40 @@ plt.plot(x,dpndx_analytic(x),color='r',linestyle='-.')
 plt.axhline(y=0)
 plt.show()
 
-root = float(utils.NewRaph_rootfinder(dpndx_analytic,1e-4,5))
-y = float(pn(root)*2)
-print('root=',root, ', y =',y)
+dpndx_0 = float(utils.NewRaph_rootfinder(dpndx_analytic,1e-4,1,rng))
+print(dpndx_0)
+new_floor = float(pn(dpndx_0)/2)
+pn_new_floor = lambda x: pn(x) - new_floor
+root1 = float(utils.NewRaph_rootfinder(pn_new_floor,1e-4,dpndx_0,rng))
+root2 = float(utils.NewRaph_rootfinder(pn_new_floor,dpndx_0,5,rng))
+print('Roots:', root1,root2)
+plt.scatter(root1,new_floor)
+plt.scatter(root2,new_floor)
+plt.plot(x,pn(x))
+plt.axhline(y=0)
+plt.axhline(y=new_floor)
+plt.show()
 
 #--- 2.g ---
+counts = np.zeros((len(bins)-1))
+for i in r: 
+    for j in range(len(bins)-1):
+        if i < bins[j+1] and i > bins[j]:
+            counts[j] += 1
+r_list = []
+for i in r:
+    if i < bins[utils.arg_max(counts)+1] and i > bins[utils.arg_max(counts)]:
+        r_list.append(i)
+        
+sr = utils.selection_sort(r_list)
+
+median = sr[int(len(sr)/2-0.5)]
+p16th = sr[round(len(sr)*0.16)-1]
+p84th = sr[round(len(sr)*0.84)-1]
+print('Length: {}, median: {}, 16th: {}, 84th: {}'.format(len(sr),median,p16th,p84th))
+x = np.linspace(0,len(sr)-1,len(sr))
+plt.scatter(x,sr)
+plt.axvline(x=int(len(sr)/2-0.5))
+plt.axvline(x=round(len(sr)*0.16)-1)
+plt.axvline(round(len(sr)*0.84)-1)
+plt.show()
