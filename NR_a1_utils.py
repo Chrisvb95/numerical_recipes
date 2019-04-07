@@ -210,10 +210,6 @@ def trilinear_interpolator(al,bl,cl,Al,x,y,z):
     b0,b1,bi = bracket_finder(bl,y)
     c0,c1,ci = bracket_finder(cl,z)
 
-    print(a0,a1,ai)
-    print(b0,b1,bi)
-    print(c0,c1,ci)
-
     xd = (x-a0)/(a1-a0)
     yd = (y-b0)/(b1-b0)
     zd = (y-c0)/(c1-c0)
@@ -266,3 +262,23 @@ def arg_max(l):
             arg = i
     return arg        
 #end arg_max()
+
+def data_unpacker(data):
+# Unpacks the data read into a pandas df
+    halo_index = []
+    print(data.iloc[1])
+    for i in data:
+        if i == '#':
+            print(i)
+            halo_index.apend(i)
+    dat = []
+    for i in range(len(halo_index)):
+        halo = data[halo_index[i]+1:halo_index[i+1]]
+        halo = dat[0].str.split(expand=True)
+        dat.append(halo.to_numpy)
+    return dat
+#end data_unpacker()
+        
+
+
+
