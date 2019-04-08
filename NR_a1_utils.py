@@ -186,7 +186,13 @@ def selection_sort(l):
     for i in range(len(l)):
         min = arg_min(l)
         sl.append(l[min])
-        l = l[:min]+l[(min+1):]
+        #print(sl,l)
+        if sl[i] == l[0]:
+            l = l[(min+1):]
+        elif sl[i] == l[-1]:
+            l = l[:min]           
+        else:
+            l = l[:min]+l[(min+1):]
     return sl
 #end selection_sort()
 
@@ -224,6 +230,81 @@ def trilinear_interpolator(al,bl,cl,Al,x,y,z):
 
     return c0*(1-zd)+c1*zd
 #end trilinear_interpolator()
+
+def selection_sort4simplex(xs,fxs):
+# Ascending sorting of l using selection sort
+    sfxs = []
+    sxs = [] 
+    for i in range(len(fxs)):
+        min = arg_min(fxs)
+        sfxs.append(fxs[min])
+        sxs.append(xs[min])
+        #print(sl,l)
+        if sfxs[i] == fxs[0]:
+            fxs = fxs[(min+1):]
+            xs = xs[(min+1):]
+        elif sfxs[i] == fxs[-1]:
+            fxs = fxs[:min]         
+            xs = xs[:min]           
+        else:
+            fxs = fxs[:min]+fxs[(min+1):]
+            xs = xs[:min]+xs[(min+1):]
+    return np.array(sxs),np.array(sfxs)
+#end selection_sort()
+
+def downhill_simplex(f,a,b,c):
+
+    alpha,beta,gamma = 1,1,0.5
+    rngen = rng(14)
+
+    # Generate starting points
+    xs = [[a,b,c]]
+    for i in range(3):
+        xs.append([float(a+rngen.rand_num(1)),float(b+rngen.rand_num(1)),float(c+rngen.rand_num(1))])
+    xs = np.array(xs)
+    #Centroid function
+    centroid = lambda xs: np.array([sum(xs[:,0]),sum(xs[:,1]),sum(xs[:,2])])/len(xs)
+
+    it = 0
+    N = 1000
+    while it < N:
+        it += 1 
+        # Reorder the points from best to worst 
+        fxs = f(xs)
+        xs,fxs = selection_sort4simplex(xs,fxs)
+        print('-------------------')
+        print('xs:',xs)
+        print('fxs:',fxs)
+        #Generate a trial point by reflection 
+        c = centroid(xs)
+        x_new = np.array([c + alpha*(c-xs[-1])])
+        print('x_new:',x_new)
+        fx_new = f(x_new)
+        print('fx_new',fx_new) 
+
+        if fx_new < fxs[0]: #Expansion
+            print('Expanding')
+            x_exp = x_new + beta*(x_new-c)
+            if f(x_exp) < f(x_new):
+                xs[-1] = x_exp
+            else:
+                xs[-1] = x_new
+
+        elif fx_new > fxs[-1]: #Contraction
+            print('Contracting')
+            fx_cont = sys.maxsize
+            while fx_cont > fxs[-1]:
+                x_cont = c +gamma*(fxs[-1]-c)
+                fx_cont = f(x_cont) 
+            xs[-1] = x_cont
+
+        else: #Back to reflection
+            xs[-1] = x_new
+        if np.abs(fxs[0]-fxs[1]) < 1e-6:
+            print('Found minimum after {} iterations'.format(it))
+            return xs[0],fxs[0]
+    print('Reached maximum number of iterations, returning best coordinates...')
+    return xs[0],fxs[0]
 
 # --- Simple supporting functions --- 
 
@@ -266,19 +347,14 @@ def arg_max(l):
 def data_unpacker(data):
 # Unpacks the data read into a pandas df
     halo_index = []
-    print(data.iloc[1])
-    for i in data:
-        if i == '#':
-            print(i)
-            halo_index.apend(i)
+    for i in range(len(data)):
+        if data.iloc[i][0] == '#':
+            halo_index.append(i)
+    halo_index.append(len(data))
     dat = []
-    for i in range(len(halo_index)):
+    for i in range(len(halo_index)-1):
         halo = data[halo_index[i]+1:halo_index[i+1]]
-        halo = dat[0].str.split(expand=True)
-        dat.append(halo.to_numpy)
+        halo = halo[0].str.split(expand=True)
+        dat.append(halo.values)
     return dat
 #end data_unpacker()
-        
-
-
-
