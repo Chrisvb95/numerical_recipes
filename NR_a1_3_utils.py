@@ -51,22 +51,22 @@ def downhill_simplex(f,a,b,c,la = [-2**32,2**32],lb = [-2**32,2**32],lc = [-2**3
         # Reorder the points from best to worst 
         fxs = f(xs)
         xs,fxs = selection_sort4simplex(xs,fxs)
-        print('-------------------')
-        print('xs:',xs)
-        print('fxs:',fxs)
+        #print('-------------------')
+        #print('xs:',xs)
+        #print('fxs:',fxs)
         #Generate a trial point by reflection 
         c = centroid(xs)
-        print('Centroid:',c)
+        #print('Centroid:',c)
         x_new = np.array([c + alpha*(c-xs[-1])])
-        print('x_new:',x_new)
+        #print('x_new:',x_new)
         if x_new[0][0] < la[0] or x_new[0][0] > la[1] or x_new[0][1] < lb[0] or x_new[0][1] > lb[1] or x_new[0][2] < lc[0] or x_new[0][2] > lc[1]: 
             fx_new = 2**32 
         else:
             fx_new = f(x_new)
-        print('fx_new',fx_new) 
+        #print('fx_new',fx_new) 
 
         if fx_new < fxs[0]: #Expansion
-            print('Expanding')
+            #print('Expanding')
             x_exp = x_new + beta*(x_new-c)
             if f(x_exp) < f(x_new):
                 xs[-1] = x_exp
@@ -78,7 +78,7 @@ def downhill_simplex(f,a,b,c,la = [-2**32,2**32],lb = [-2**32,2**32],lc = [-2**3
             wit = 0
             while fx_cont > fxs[-1] and wit < 10:
                 wit += 1
-                print('Contracting')
+                #print('Contracting')
                 x_cont = np.array([c +gamma*(xs[-1]-c)])
                 if x_cont[0][0] < la[0] or x_cont[0][0] > la[1] or x_cont[0][1] < lb[0] or x_cont[0][1] > lb[1] or x_cont[0][2] < lc[0] or x_cont[0][2] > lc[1]: 
                     fx_cont = 2**32
@@ -88,11 +88,12 @@ def downhill_simplex(f,a,b,c,la = [-2**32,2**32],lb = [-2**32,2**32],lc = [-2**3
             xs[-1] = x_cont
 
         else: #Back to reflection
-            print('Back to top')
+            #print('Back to top')
             xs[-1] = x_new
             
         if np.abs(fxs[0]-fxs[1]) < 1e-15:
             print('Found minimum after {} iterations'.format(it))
+            print(xs[0],fxs[0])
             return xs[0],fxs[0]
     print('Reached maximum number of iterations, returning best coordinates...')
     return xs[0],fxs[0]
