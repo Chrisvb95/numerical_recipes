@@ -1,0 +1,11 @@
+Original seed: 42
+1.a:
+Simple poisson distribution:
+P(0) with mean 1: 0.36787944117144233
+P(10) with mean 5: 1.887133131720812e-05
+P(20) with mean 3: 4.618166957543755e-18
+P(40) with mean 2.6: 6.717133577841103e-49
+Large-number poisson distribution (only works for large numbers):
+P(200) with mean 101: 1.2695314379023172e-18
+1.b:
+Saving Histogram and scatter plot.

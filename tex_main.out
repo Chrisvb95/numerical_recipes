@@ -1,0 +1,15 @@
+\BOOKMARK [1][-]{section.1}{Exercise 1}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Scripts}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Exercise 2}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Write a numerical integrator}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Make a log-log plot and interpolate the given values}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{Numerically calculate dn\(x\)/dx at x=b}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.4}{Generate 3D satellite positions}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.5}{Repeart \(d\) for 1000 haloes each containing 100 satellites}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.6}{Write a root-finding algorithm}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.7}{Take the bin from e containing the largest number of galaxies. Using sorting calculate the median, 16th and 84th percentile for this bin and output the values and plot the histogram}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.8}{Write an interpolator that gives values of a for different a,b,c}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.9}{Scripts}{section.2}% 12
+\BOOKMARK [1][-]{section.3}{Exercise 3}{}% 13
+\BOOKMARK [2][-]{subsection.3.1}{Find the a,b,c that maximize this likelihood}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.2}{Write an interpolator fora,bandcas a function of halo mass,orfit a function to each.}{section.3}% 15
