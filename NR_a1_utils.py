@@ -12,8 +12,6 @@ def poisson_distribution(mean,k):
 		fact = fact*(k-1)
 	return (mean**k*np.exp(-mean))/fact
 #end poisson_distribution()
-# TO DO: Allow it to handle fact > sys.maxsize
-
 
 def poisson_distribution_new(mean,k):
 #Returns probability for given k and mean	
@@ -35,7 +33,6 @@ def poisson_distribution_new(mean,k):
 	return x*10**mag_tot
 # Only works for massive numbers.......
 #end poisson_distribution()
-# TO DO: Allow it to handle fact > sys.maxsize
 
 class rng(object):
 # rng object that is initiated with a give seed
@@ -93,7 +90,6 @@ def ridders_diff(f,x):
                 D_new[j] = (d**(2*(j+1))*D[j-1]-D_new[j-1])/(d**(2*(j+1))-1)  
         D = D_new    
         h = h/d
-        #print(D[i])
     return D[m-1]
 #end ridders_diff()
 
@@ -119,6 +115,43 @@ def romber_int(f,a,b):
                 return S[-1]
     return S[-1]
 #end romber_int()
+
+def interpol_lin(xj,yj,x,y):
+# Linear interpolator
+    j=0
+    for i in range(len(x)): 
+        if x[i]>xj[j]:
+            j+=1
+        if j>4:
+            return y        
+        y[i]=(((yj[j]-yj[j-1])/(xj[j]-xj[j-1]))*(x[i]-xj[j]))+yj[j]
+#end interpol_lin()
+
+def interpol_lin_log(xj,yj,x,y):
+# Linear interpolator
+    j=0
+    for i in range(len(x)): 
+        if x[i]>xj[j]:
+            j+=1
+        if j>4:
+            return y      
+        y[i]=(((yj[j]-yj[j-1])/(xj[j]-xj[j-1]))*(x[i]-xj[j]))+yj[j]
+#end interpol_lin()
+
+def nevils_alg(x,xj,yj,i,j):
+# Neville's Algorithm used in interpol_neville
+    if i == j:
+        return yj[i]
+    else:
+        return ((x-xj[j])*nevils_alg(x,xj,yj,i,j-1)-(x-xj[i])*nevils_alg(x,xj,yj,i+1,j))/(xj[i]-xj[j])
+#end nevils_alg()
+
+def interpol_neville(xj,yj,x,y):
+# Interpolator that uses Neville's Algorithm
+    for z in range(len(x)):
+        y[z] = nevils_alg(x[z],xj,yj,0,len(xj)-1)
+    return y
+#end interpol_neville()
 
 def rejection_sampler(n,p,max_x,max_y,rng):
 # Rejection sampler that uses max_y value as g
@@ -186,13 +219,7 @@ def selection_sort(l):
     for i in range(len(l)):
         min = arg_min(l)
         sl.append(l[min])
-        #print(sl,l)
-        if sl[i] == l[0]:
-            l = l[(min+1):]
-        elif sl[i] == l[-1]:
-            l = l[:min]           
-        else:
-            l = l[:min]+l[(min+1):]
+        l = l[:min]+l[(min+1):]
     return sl
 #end selection_sort()
 
@@ -232,14 +259,16 @@ def trilinear_interpolator(al,bl,cl,Al,x,y,z):
 #end trilinear_interpolator()
 
 def selection_sort4simplex(xs,fxs):
-# Ascending sorting of l using selection sort
+# Ascending sorting of xs and fxs based on fxs values using selection sort
     sfxs = []
-    sxs = [] 
+    sxs = []
+    index = []
+    #print(fxs) 
     for i in range(len(fxs)):
         min = arg_min(fxs)
         sfxs.append(fxs[min])
         sxs.append(xs[min])
-        #print(sl,l)
+        #print(sxs,sfxs)
         if sfxs[i] == fxs[0]:
             fxs = fxs[(min+1):]
             xs = xs[(min+1):]
@@ -247,24 +276,31 @@ def selection_sort4simplex(xs,fxs):
             fxs = fxs[:min]         
             xs = xs[:min]           
         else:
-            fxs = fxs[:min]+fxs[(min+1):]
-            xs = xs[:min]+xs[(min+1):]
+           #print('min',min)
+            #print('xs',xs[:min],xs[(min+1):])
+            fxs = np.append(fxs[:min],fxs[(min+1):])
+            xs = np.concatenate((xs[:min],xs[(min+1):]))
+        #print(xs,fxs)
     return np.array(sxs),np.array(sfxs)
-#end selection_sort()
+#end selection_sort4simplex()
 
 def downhill_simplex(f,a,b,c):
-
-    alpha,beta,gamma = 1,1,0.5
+#Optimizing function
+    alpha,beta,gamma = 1,1,0.3
     rngen = rng(14)
 
     # Generate starting points
-    xs = [[a,b,c]]
-    for i in range(3):
-        xs.append([float(a+rngen.rand_num(1)),float(b+rngen.rand_num(1)),float(c+rngen.rand_num(1))])
+    #xs = [[a,b,c]]
+    #for i in range(3):
+        #xs.append([np.round(float(a+rngen.rand_num(1)),2),np.round(float(b+rngen.rand_num(1)),2),np.round(float(c+rngen.rand_num(1)),2)])
+    #    xs.append([float(a+rngen.rand_num(1)),float(b+rngen.rand_num(1)),float(c+rngen.rand_num(1))])
+    #xs = np.array(xs)
+    #print(xs)
+    xs = [[a,b,c],[a+1,b,c],[a,b+1,c],[a,b,c+1]]
     xs = np.array(xs)
+    print(xs)
     #Centroid function
     centroid = lambda xs: np.array([sum(xs[:,0]),sum(xs[:,1]),sum(xs[:,2])])/len(xs)
-
     it = 0
     N = 1000
     while it < N:
@@ -277,6 +313,7 @@ def downhill_simplex(f,a,b,c):
         print('fxs:',fxs)
         #Generate a trial point by reflection 
         c = centroid(xs)
+        print('Centroid:',c)
         x_new = np.array([c + alpha*(c-xs[-1])])
         print('x_new:',x_new)
         fx_new = f(x_new)
@@ -291,20 +328,34 @@ def downhill_simplex(f,a,b,c):
                 xs[-1] = x_new
 
         elif fx_new > fxs[-1]: #Contraction
-            print('Contracting')
             fx_cont = sys.maxsize
             while fx_cont > fxs[-1]:
-                x_cont = c +gamma*(fxs[-1]-c)
+                print('Contracting')
+                x_cont = np.array([c +gamma*(xs[-1]-c)])
+                print(x_cont)
                 fx_cont = f(x_cont) 
             xs[-1] = x_cont
 
         else: #Back to reflection
+            print('Back to top')
             xs[-1] = x_new
-        if np.abs(fxs[0]-fxs[1]) < 1e-6:
+            
+        if np.abs(fxs[0]-fxs[1]) < 1e-15:
             print('Found minimum after {} iterations'.format(it))
             return xs[0],fxs[0]
     print('Reached maximum number of iterations, returning best coordinates...')
     return xs[0],fxs[0]
+#end downhill_simplex()
+
+def log_likelyhood(data,a,b,c,A):
+# Returns the log_likelyhood of n(x) for given parameters
+    N = len(data)
+    logSum,expSum = 0,0
+    for i in data:
+        logSum += np.log(i)
+        expSum += -1*(i/b)**c 
+    return N*np.log(A) + (a-1)*(logSum-N*np.log(b)) + expSum 
+#end log_likelyhood()
 
 # --- Simple supporting functions --- 
 

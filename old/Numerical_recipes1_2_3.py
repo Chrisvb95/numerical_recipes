@@ -17,7 +17,7 @@ def interpol_lin(xj,yj,x,y):
 	for i in range(len(x)):	
 		if x[i]>xj[j]:
 			j+=1
-		if j>6:
+		if j>4:
 			return y		
 		y[i]=(((yj[j]-yj[j-1])/(xj[j]-xj[j-1]))*(x[i]-xj[j]))+yj[j]
 
