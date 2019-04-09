@@ -8596,5 +8596,3 @@ x_new: [[0.33333343 0.6666667  0.33333325]]
 fx_new [1.72819609e-14]
 Back to top
 Found minimum after 614 iterations
-(array([0.33333338, 0.6666667 , 0.33333334]), 4.039755480067767e-15)
-Found the minimum value {4} at a,b,c = {0},{1},{2}
