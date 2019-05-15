@@ -92,8 +92,43 @@ def KS_Kuip_test(sample,f,mu,sig,Kuip=False):
     z = (N**0.5+0.12+0.11*N**(-0.5))*D
     if z < 1.18:
         P = (2*np.pi)**0.5*((np.exp(-1*np.pi**2/(8*z**2)))+(np.exp(-1*np.pi**2/(8*z**2)))**9+(np.exp(-1*np.pi**2/(8*z**2)))**25)
-        return D,P 
+        return D,1-P 
     else:
         P = 1-2*((np.exp(-2*z**2))-(np.exp(-2*z**2))**4+(np.exp(-2*z**2))**9)
-        return D,P
+        return D,1-P
 #end KS_test()
+
+def random_field_generator(n,N,rng,mu=0):
+    # Prepares a random field in Fourier space
+    print(f'Generating a random field with n = {n} of dimension {N}x{N} (mu = {mu})')
+    df = np.zeros((N,N),dtype=complex)
+    # Setting values of top half of the field 
+    for j in range((N//2)+1):
+    # Determining the value of k_y 
+        k_y = j*2*np.pi/N
+        for i in range(N):
+            # Determining the value of k_x and sigma_x
+            if i <= (N//2):
+                k_x = (i)*2*np.pi/N
+            else:
+                k_x = (-N+i)*2*np.pi/N
+            # Avoid dividing by 0
+            if i != 0 or j != 0:
+                sig = ((k_x**2+k_y**2)**0.5)**(n/2)
+            else: 
+                sig = 0
+            # Drawing a random number from normal distrib 
+            #df[j][i] = np.random.normal(0,sig)+ 1j*np.random.normal(0,sig)
+            rand = box_muller(rng.rand_num(1),rng.rand_num(1),mu,sig)
+            df[j][i] = rand[0] + 1j*rand[1]
+    # Setting values of points who need to equal their own conjugates
+    df[0][0] = 0
+    df[0][N//2] = (df[0][N//2].real)**2
+    df[N//2][0] = (df[N//2][0].real)**2
+    df[N//2][N//2] = (df[N//2][N//2].real)**2
+    # Setting values of bottom half of the field using conjugates
+    for j in range((N//2)+1):
+        for i in range(N):
+            df[-j][-i]= df[j][i].conjugate()
+    return df
+#end random_field generator()

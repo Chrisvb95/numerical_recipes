@@ -8,6 +8,7 @@ seed = 42
 print('Original seed:',seed)
 
 #--- 1.a ---
+print('--- Running code for exercise 1 and 2 ---')
 # MWC and XOR-Shift
 rng = utils.rng(seed)
 # Scatter plot
@@ -76,7 +77,7 @@ for i in range(len(n)):
     d_s[i],P_s[i] = stats.kstest(rand[0],'norm')
 # Plotting
 plt.plot(n,P_s,label='Scipy')
-plt.plot(n,1-P,label='Self written')
+plt.plot(n,P,label='Self written')
 plt.title('KS-Test')
 plt.ylabel('$P(z)$')
 plt.xlabel('N')
@@ -98,7 +99,7 @@ for i in range(len(n)):
     kuip_d_s[i],kuip_P_s[i] = stats.kstest(rand[0],'norm')
 # Plotting
 plt.plot(n,kuip_P_s,label='Scipy')
-plt.plot(n,1-kuip_P,label='Self written')
+plt.plot(n,kuip_P,label='Self written')
 plt.title('Scipy KS-Test and self-written Kuiper-Test')
 plt.ylabel('$P(z)$')
 plt.xlabel('N')
@@ -114,3 +115,58 @@ url = 'https://home.strw.leidenuniv.nl/~nobels/coursedata/'
 if not os.path.isfile(filename):
     print(f'File not found, downloading {filename}')
     os.system('wget '+url+filename)
+random_num = np.genfromtxt(filename,delimiter=' ',skip_footer=1)
+
+n = np.logspace(np.log10(10),np.log10(len(random_num)),dtype=int)
+test_P,test_D = np.zeros((10,len(n)),dtype=list),np.zeros((10,len(n)),dtype=list)
+
+for i in range(10):
+    for j in range(len(n)):
+        rand = np.array(random_num[:n[j],i])
+        test_D[i][j],test_P[i][j] = utils.KS_Kuip_test(rand,gauss,mu,sig,Kuip=True)
+   
+
+plt.plot(n,kuip_P_s,label='Scipy (KS)',color = 'g')
+for i in range(10):
+    plt.plot(n,test_P[i],label = i)
+plt.title('Scipy KS-Test and self-written Kuiper-Test')
+plt.ylabel('$P(z)$')
+plt.xlabel('N')
+plt.xscale('log')
+plt.legend(loc=2, bbox_to_anchor=(1,1))
+plt.savefig('plots/1g.png')
+plt.close()
+print('Saving plots/1g.png')
+
+#---2---
+# Making initial density fields for different n values
+N = 1024
+df1 = utils.random_field_generator(-1,N,rng)
+df1_inft = np.fft.ifft2(df1)
+df2 = utils.random_field_generator(-2,N,rng)
+df2_inft = np.fft.ifft2(df2)
+df3 = utils.random_field_generator(-3,N,rng)
+df3_inft = np.fft.ifft2(df3)
+# Plotting fields
+fig, ((ax1,ax2,ax3),(ax4,ax5,ax6)) = plt.subplots(2, 3,sharex='col', sharey='row')
+ax1.imshow(np.abs(df1))
+ax1.set(title='n = -1')
+ax1.set(ylabel='Generated field')
+ax2.imshow(np.abs(df2))
+ax2.set(title='n = -2')
+ax3.imshow(np.abs(df3))
+ax3.set(title='n = -3')
+ax4.imshow(np.abs(df1_inft))
+ax4.set(ylabel='Inv. FT')
+ax5.imshow(np.abs(df2_inft ))
+ax6.imshow(np.abs(df3_inft ))
+fig.suptitle('Initial density fields for different n',y=1.02)
+fig.tight_layout()
+plt.savefig('plots/2.png')
+plt.close()
+print('Saving plots/2.png')
+
+
+# TO DO - 
+# 1. Say something about the last plot
+# 2. Set size to megaparsec 
