@@ -41,3 +41,5 @@ def runge_kutta(x0,y0,f,xmax,h=0.0001):
     plt.plot(x_out,y_out)
 
     return np.sum(y_out)*h
+
+def 
