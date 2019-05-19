@@ -44,6 +44,29 @@ def box_muller(u1,u2,mu,sigma):
     return x1*sigma+mu,x2*sigma+mu
 #end box_muller
 
+def central_diff(f,h,x):
+# Calculates the central difference\n",
+    return (f(x+h)-f(x-h))/(2*h) 
+#end central_diff()
+
+def ridders_diff(f,x):
+# Differentiates using Ridder's method
+    m = 10
+    D = np.zeros((m,len(x)))
+    d = 2
+    h = 0.001
+    for i in range(m):
+        D_new = D      
+        for j in range(i+1):    
+            if j == 0:
+                D_new[j] = central_diff(f,h,x)
+            else:
+                D_new[j] = (d**(2*(j+1))*D[j-1]-D_new[j-1])/(d**(2*(j+1))-1)  
+        D = D_new    
+        h = h/d
+    return D[m-1]
+#end ridders_diff()
+
 def comp_trapezoid(f,a,b,n):
     # Composite trapezoid rule used in romber_int()
     h = 1/(2**(n-1))*(b-a)

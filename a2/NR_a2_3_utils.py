@@ -55,3 +55,75 @@ def runge_kutta2nd(x1_0,x2_0,t0,t,f,g,h=0.01):
         x1n,x2n = k_calc2nd(h,f,g,t[i],x1n,x2n)
         x1_out[i] = x1n 
     return np.sum(x1_out)*h,x1_out
+
+def random_field_generator(n,N,rng,mu=0):
+    # Prepares a random field in Fourier space
+    print(f'Generating a random field with n = {n} of dimension {N}x{N} (mu = {mu})')
+    df = np.zeros((N,N),dtype=complex)
+    # Setting values of top half of the field 
+    for j in range((N//2)+1):
+    # Determining the value of k_y 
+        k_y = j*2*np.pi/N
+        for i in range(N):
+            # Determining the value of k_x and sigma_x
+            if i <= (N//2):
+                k_x = (i)*2*np.pi/N
+            else:
+                k_x = (-N+i)*2*np.pi/N
+            # Avoid dividing by 0
+            if i != 0 or j != 0:
+                sig = ((k_x**2+k_y**2)**0.5)**(n/2)
+            else: 
+                sig = 0
+            # Drawing a random number from normal distrib 
+            #df[j][i] = np.random.normal(0,sig)+ 1j*np.random.normal(0,sig)
+            rand = box_muller(rng.rand_num(1),rng.rand_num(1),mu,sig)
+            df[j][i] = rand[0] + 1j*rand[1]
+    # Setting values of points who need to equal their own conjugates
+    df[0][0] = 0
+    df[0][N//2] = (df[0][N//2].real)**2
+    df[N//2][0] = (df[N//2][0].real)**2
+    df[N//2][N//2] = (df[N//2][N//2].real)**2
+    # Setting values of bottom half of the field using conjugates
+    for j in range((N//2)+1):
+        for i in range(N):
+            df[-j][-i]= df[j][i].conjugate()
+    return df
+#end random_field generator()
+
+def box_muller(u1,u2,mu,sigma):
+    # Implementation of the Box Muller transform
+    x1 = (-2*np.log(u1))**0.5*np.sin(2*np.pi*u2)
+    x2 = (-2*np.log(u1))**0.5*np.cos(2*np.pi*u2)
+    return x1*sigma+mu,x2*sigma+mu
+#end box_muller
+
+
+def random_field_generator_zeld(N,rng,mu=0,sig=1):
+    # Prepares a random field in Fourier space
+    #print(f'Generating a random field with n = {n} of dimension {N}x{N} (mu = {mu})')
+    df = np.zeros((N,N),dtype=complex)
+    # Setting values of top half of the field 
+    for j in range((N//2)+1):
+    # Determining the value of k_y 
+        k_y = j*2*np.pi/N
+        for i in range(N):
+            # Determining the value of k_x and sigma_x
+            if i <= (N//2):
+                k_x = (i)*2*np.pi/N
+            else:
+                k_x = (-N+i)*2*np.pi/N
+            # Drawing a random number from normal distrib 
+            rand = box_muller(rng.rand_num(1),rng.rand_num(1),mu,sig)
+            df[j][i] = rand[0] - 1j*rand[1]
+    # Setting values of points who need to equal their own conjugates
+    df[0][0] = 0
+    df[0][N//2] = (df[0][N//2].real)**2
+    df[N//2][0] = (df[N//2][0].real)**2
+    df[N//2][N//2] = (df[N//2][N//2].real)**2
+    # Setting values of bottom half of the field using conjugates
+    for j in range((N//2)+1):
+        for i in range(N):
+            df[-j][-i]= df[j][i].conjugate()
+    return df
+#end random_field generator()
