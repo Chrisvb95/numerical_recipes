@@ -102,7 +102,9 @@ def box_muller(u1,u2,mu,sigma):
 def random_field_generator_zeld(N,rng,mu=0,sig=1):
     # Prepares a random field in Fourier space
     #print(f'Generating a random field with n = {n} of dimension {N}x{N} (mu = {mu})')
-    df = np.zeros((N,N),dtype=complex)
+    ck = np.zeros((N,N),dtype=complex)
+    Sx = np.zeros((N,N),dtype=complex)
+    Sy = np.zeros((N,N),dtype=complex)
     # Setting values of top half of the field 
     for j in range((N//2)+1):
     # Determining the value of k_y 
@@ -113,17 +115,31 @@ def random_field_generator_zeld(N,rng,mu=0,sig=1):
                 k_x = (i)*2*np.pi/N
             else:
                 k_x = (-N+i)*2*np.pi/N
-            # Drawing a random number from normal distrib 
+            # Drawing a random number from normal distrib
+            k = (k_x**2+k_y**2)**0.5 
+            if k == 0:
+                k = 1
             rand = box_muller(rng.rand_num(1),rng.rand_num(1),mu,sig)
-            df[j][i] = rand[0] - 1j*rand[1]
+            ck[j][i] = (rand[0]*k**(-3)) - 1j*(rand[1]*k**(-3))
+            Sx[j][i] = ck[j][i]*k_x*1j
+            Sy[j][i] = ck[j][i]*k_y*1j
     # Setting values of points who need to equal their own conjugates
-    df[0][0] = 0
-    df[0][N//2] = (df[0][N//2].real)**2
-    df[N//2][0] = (df[N//2][0].real)**2
-    df[N//2][N//2] = (df[N//2][N//2].real)**2
+    ck[0][0] = 0
+    Sx[0][0],Sy[0][0] = 0,0
+    ck[0][N//2] = (ck[0][N//2].real)**2
+    Sx[0][N//2] = (Sx[0][N//2].real)**2
+    Sy[0][N//2] = (Sy[0][N//2].real)**2
+    ck[N//2][0] = (ck[N//2][0].real)**2
+    Sx[N//2][0] = (Sx[N//2][0].real)**2
+    Sy[N//2][0] = (Sy[N//2][0].real)**2
+    ck[N//2][N//2] = (ck[N//2][N//2].real)**2
+    Sx[N//2][N//2] = (Sx[N//2][N//2].real)**2
+    Sy[N//2][N//2] = (Sy[N//2][N//2].real)**2
     # Setting values of bottom half of the field using conjugates
     for j in range((N//2)+1):
         for i in range(N):
-            df[-j][-i]= df[j][i].conjugate()
-    return df
+            ck[-j][-i]= ck[j][i].conjugate()
+            Sx[-j][-i]= Sx[j][i].conjugate()
+            Sy[-j][-i]= Sy[j][i].conjugate()
+    return ck,Sx,Sy
 #end random_field generator()
