@@ -1,0 +1,6 @@
+--- Exercise 2 ---
+Original seed: 627310980
+Generating a random field with n = -1 of dimension 1024x1024 (mu = 0)
+Generating a random field with n = -2 of dimension 1024x1024 (mu = 0)
+Generating a random field with n = -3 of dimension 1024x1024 (mu = 0)
+Generated plots/2.png

@@ -1,0 +1,5 @@
+--- Exercise 4 ---
+Original seed: 627310980
+The linear growth factor at z = 50 (a = 1/51) is equal to: 0.01961021426458253
+ The analytical value of time derivative of D(z) at z = 50 : -547.6695899239868
+ The numerical value of time derivative of D(z) at z = 50 : [1.00011134]

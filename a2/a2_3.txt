@@ -1,0 +1,10 @@
+--- Exercise 1 ---
+Original seed: 627310980
+Generated plots/1a.png
+Generated plots/1b.png
+Generated plots/1c.png
+Generated plots/1d.png
+Generated plots/1e.png
+Generated plots/1f.png
+Generated plots/1g.png
+--- Exercise 3 ---
