@@ -143,3 +143,61 @@ def random_field_generator_zeld(N,rng,mu=0,sig=1):
             Sy[-j][-i]= Sy[j][i].conjugate()
     return ck,Sx,Sy
 #end random_field generator()
+
+def random_field_generator_zeld_3D(N,rng,mu=0,sig=1):
+    # Prepares a random field in Fourier space
+    #print(f'Generating a random field with n = {n} of dimension {N}x{N} (mu = {mu})')
+    ck = np.zeros((N,N,N),dtype=complex)
+    Sx = np.zeros((N,N,N),dtype=complex)
+    Sy = np.zeros((N,N,N),dtype=complex)
+    Sz = np.zeros((N,N,N),dtype=complex)
+
+    for l in range(N):
+        if l <= (N//2):
+            k_z = (l)*2*np.pi/N
+        else:
+            k_z = (-N+l)*2*np.pi/N
+        #print(k_z)
+        # Setting values of top half of the field 
+        for j in range((N//2)+1):
+        # Determining the value of k_y 
+            k_y = j*2*np.pi/N
+            for i in range(N):
+                # Determining the value of k_x and sigma_x
+                if i <= (N//2):
+                    k_x = (i)*2*np.pi/N
+                else:
+                    k_x = (-N+i)*2*np.pi/N
+                # Drawing a random number from normal distrib
+                k = (k_x**2+k_y**2+k_z**2)**0.5 
+                if k == 0:
+                    k = 1
+                rand = box_muller(rng.rand_num(1),rng.rand_num(1),mu,sig)
+                ck[l][j][i] = (rand[0]*k**(-3)) - 1j*(rand[1]*k**(-3))
+                Sx[l][j][i] = ck[l][j][i]*k_x*1j
+                Sy[l][j][i] = ck[l][j][i]*k_y*1j
+                Sz[l][j][i] = ck[l][j][i]*k_z*1j
+        # Setting values of points who need to equal their own conjugates
+        ck[l][0][0] = 0
+        Sx[l][0][0],Sy[l][0][0],Sz[l][0][0] = 0,0,0
+        ck[l][0][N//2] = (ck[l][0][N//2].real)**2
+        Sx[l][0][N//2] = (Sx[l][0][N//2].real)**2
+        Sy[l][0][N//2] = (Sy[l][0][N//2].real)**2
+        Sz[l][0][N//2] = (Sz[l][0][N//2].real)**2
+        ck[l][N//2][0] = (ck[l][N//2][0].real)**2
+        Sx[l][N//2][0] = (Sx[l][N//2][0].real)**2
+        Sy[l][N//2][0] = (Sy[l][N//2][0].real)**2
+        Sz[l][N//2][0] = (Sz[l][N//2][0].real)**2
+        ck[l][N//2][N//2] = (ck[l][N//2][N//2].real)**2
+        Sx[l][N//2][N//2] = (Sx[l][N//2][N//2].real)**2
+        Sy[l][N//2][N//2] = (Sy[l][N//2][N//2].real)**2
+        Sz[l][N//2][N//2] = (Sz[l][N//2][N//2].real)**2
+        # Setting values of bottom half of the field using conjugates
+        for j in range((N//2)+1):
+            for i in range(N):
+                ck[l][-j][-i]= ck[l][j][i].conjugate()
+                Sx[l][-j][-i]= Sx[l][j][i].conjugate()
+                Sy[l][-j][-i]= Sy[l][j][i].conjugate()
+                Sz[l][-j][-i]= Sz[l][j][i].conjugate()
+    return ck,Sx,Sy,Sz
+#end random_field generator()

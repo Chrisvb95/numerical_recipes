@@ -232,9 +232,45 @@ The resulting value is: $D(1/51) = 0.0196$. The exact number and the way that it
 
 \subsection{Calculating the derivative of the linear growth factor at a given redshift}
 
+In order to accomplish this task we had to analytically derive the value of $\dot{D}(t)$. One can calculate this indirectly using the following equation: 
+
+\begin{equation}
+\dot{D}(t) = \frac{dD}{da}\dot{a}
+\end{equation} 
+
+Where
+
+\begin{equation}
+\dot{a} = \frac{H_0}{\sqrt{a}}
+\end{equation}
+
+
+If we use the chain rule we get:
+
+\begin{equation}
+\frac{dD}{da} = \frac{5\Omega_mH_0^2}{2}[\frac{dH(a)}{da}I+\frac{dI}{da}H(a)]
+\end{equation}
+
+Where
+
+\begin{equation}
+I = \int^a_0\frac{1}{a^3H(a)^3}da
+\end{equation}
+
+
+Which gives us: 
+
+\begin{equation}
+\dot{D}(a) = \frac{5\Omega_mH_0^3}{2\sqrt{a}}[\frac{-3\Omega_m}{2\sqrt{a^5(\Omega_m+\Omega_\Lambda a^3)}}\int^a_0\frac{1}{a^3H(a)^3}da+\frac{1}{a^3H(a)^3}H_0\sqrt{\frac{\Omega_m}{a^3}+\Omega_\Lambda}]
+\end{equation}
+
+The resulting value is: $\dot{D}(1/51) = 1239$ REQUIRE UNITS . The exact number and the way that it was calculated can be found in the print output below. 
+
+\subsection{Evolution of a volume in 2D}
+
+ 
 
 \end{document}
-
 
 
  
