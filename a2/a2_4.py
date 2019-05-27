@@ -122,7 +122,7 @@ if __name__ == '__main__':
     H = lambda a : H0*((omega_m*(a)**(-3)+omega_lambda))**0.5
     D_prefactor = lambda a : (5*omega_m*H0**2)/2*H(a)
     dIda = lambda a: 1/(a*H(a))**3
-    I = lambda a: a4.romber_int(dIda,1e-12,a)
+    I = lambda a: romber_int(dIda,1e-12,a)
     a = 1/51
     D = lambda a: D_prefactor(a) * I(a)
     print(f'The linear growth factor at z = 50 (a = 1/51) is equal to: {D(a)}')
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     # Setting the functions
     pre_fact = lambda a: 5*omega_m*H0**3/(2*a**(0.5)) 
     dHda = lambda a: -3*omega_m/(2*(a**5*(omega_m+omega_lambda*a**3))**0.5)
-    dDdt = pre_fact(a)*(dHda(a)*I(a)+dIda(a)*H(a))
+    dDdt = lambda a: pre_fact(a)*(dHda(a)*I(a)+dIda(a)*H(a))
     dDdt_numerical = ridders_diff(D,np.array([a]))*H0/(a)**0.5
     print(f' The analytical value of time derivative of D(z) at z = 50 : {dDdt}')
     print(f' The numerical value of time derivative of D(z) at z = 50 : {dDdt_numerical}')
@@ -153,7 +153,13 @@ if __name__ == '__main__':
     for i in range(len(q)):
         for j in range(len(q)):
             q[i][j] = i,j
-     
+    
+    # Preparing values and arrays for the plotting of y vs a
+    da = a[1]-a[0]
+    p = lambda a,S : -1*(a-da/2)**2*dDdt(a-da/2)*S
+    Py = np.zeros((len(a),10))
+    Xy = np.zeros((len(a),10))
+
     # Iterating through all the a values
     x2D = np.zeros((N,N,2))
     for k in tqdm(range(0,90)):
@@ -164,6 +170,9 @@ if __name__ == '__main__':
         # Calculating the new x positions
         x2D[:,:,0] = (q[:,:,0]+DSx)%N
         x2D[:,:,1] = (q[:,:,1]+DSy)%N
+        # Saving for momentum plot
+        Xy[k] = x2D[0,:10,1]
+        Py[k] = p(a[k],Sy[0,:10])
         # Plotting
         plt.scatter(x2D[:,:,0],x2D[:,:,1],marker='.')
         plt.title('2D N-body simulation')
@@ -171,6 +180,20 @@ if __name__ == '__main__':
         plt.xlabel(f'a = {np.round(a[k],3)}')
         plt.savefig('./plots/2Dmovie/snap%04d.png'%k)
         plt.close()
+
+    plt.plot(a,Py)
+    plt.xlabel('a')
+    plt.ylabel('Momentum $p_y(a)$')
+    plt.title('Momentum of the first 10 particles in y-direction')
+    plt.savefig('./plots/4a.png')
+    plt.close()
+
+    plt.plot(a,Xy)
+    plt.xlabel('a')
+    plt.ylabel('Position $y(a)$')
+    plt.title('Position of the first 10 particles in y-direction')
+    plt.savefig('./plots/4b.png')
+    plt.close()
 
     print('2D N-body simulation completed')
 
@@ -190,6 +213,10 @@ if __name__ == '__main__':
             for k in range(N):
                 q[i][j][k] = i,j,k
 
+    # Preparing arrays for recording of momentum
+    Pz = np.zeros((len(a),10))
+    Xz = np.zeros((len(a),10))
+
     # Iterating through all the a values
     x3D = np.zeros((N,N,N,3))
     for k in tqdm(range(0,90)):
@@ -202,6 +229,9 @@ if __name__ == '__main__':
         x3D[:,:,:,0] = (q[:,:,:,0]+DSx)%N
         x3D[:,:,:,1] = (q[:,:,:,1]+DSy)%N
         x3D[:,:,:,2] = (q[:,:,:,2]+DSz)%N
+        # Saving for momentum plot
+        Xz[k] = x3D[0,0,:10,2]
+        Pz[k] = p(a[k],Sz[0,0,:10])
         # Producing the slices that will be plotted
         xy = x3D[(x3D[:,:,:,2]>31.5) & (x3D[:,:,:,2]<=32.5)]
         xz = x3D[(x3D[:,:,:,1]>31.5) & (x3D[:,:,:,1]<=32.5)]
@@ -227,5 +257,19 @@ if __name__ == '__main__':
         plt.xlabel(f'a = {np.round(a[k],3)}')
         plt.savefig('./plots/3Dmovie/yz/snap%04d.png'%k)
         plt.close()
-    
+
+    plt.plot(a,Pz)
+    plt.xlabel('a')
+    plt.ylabel('Momentum $p_z(a)$')
+    plt.title('Momentum of the first 10 particles in z-direction')
+    plt.savefig('./plots/4c.png')
+    plt.close()
+
+    plt.plot(a,Xz)
+    plt.xlabel('a')
+    plt.ylabel('Position $z(a)$')
+    plt.title('Position of the first 10 particles in z-direction')
+    plt.savefig('./plots/4d.png')
+    plt.close()
+
     print('3D N-body simulation completed')
