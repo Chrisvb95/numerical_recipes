@@ -119,19 +119,21 @@ if __name__ == '__main__':
     omega_lambda = 0.7
     H0 = 70 # km/s/Mpc
     # Setting the functions
-    H = lambda a : (H0**2*(omega_m*(a)**(-3)+omega_lambda))**0.5
+    H = lambda a : H0*((omega_m*(a)**(-3)+omega_lambda))**0.5
     D_prefactor = lambda a : (5*omega_m*H0**2)/2*H(a)
-    D_int = lambda a: 1/(a*H(a))**3
+    dIda = lambda a: 1/(a*H(a))**3
+    I = lambda a: a4.romber_int(dIda,1e-12,a)
     a = 1/51
-    D = lambda a: D_prefactor(a) * romber_int(D_int,1e-12,a)
+    D = lambda a: D_prefactor(a) * I(a)
     print(f'The linear growth factor at z = 50 (a = 1/51) is equal to: {D(a)}')
     
     # --- 4.b --- 
     # Setting the functions
-    dDdt = lambda a: romber_int(D_int,1e-12,a)*5/2*omega_m*H0**4*(-2*omega_m*a**(-3)+omega_lambda)
-    dDdt_analytic = dDdt(a)
-    dDdt_numerical = ridders_diff(D,np.array([a]))
-    print(f' The analytical value of time derivative of D(z) at z = 50 : {dDdt_analytic}')
+    pre_fact = lambda a: 5*omega_m*H0**3/(2*a**(0.5)) 
+    dHda = lambda a: -3*omega_m/(2*(a**5*(omega_m+omega_lambda*a**3))**0.5)
+    dDdt = pre_fact(a)*(dHda(a)*I(a)+dIda(a)*H(a))
+    dDdt_numerical = ridders_diff(D,np.array([a]))*H0/(a)**0.5
+    print(f' The analytical value of time derivative of D(z) at z = 50 : {dDdt}')
     print(f' The numerical value of time derivative of D(z) at z = 50 : {dDdt_numerical}')
 
     # --- 4.c --- 

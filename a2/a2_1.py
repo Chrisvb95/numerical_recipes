@@ -115,10 +115,53 @@ def KS_Kuip_test(sample,f,mu,sig,Kuip=False):
     # Determine the manner in which D is calculated
     if Kuip:
         D = Dmin+Dmax
+        # Calculate the probability
+        z = (N**0.5+0.155+0.24*N**(-0.5))*D
+        #print(z)
+        if z < 0.4:
+            P = 1
+        else:
+            P = 0    
+            for i in range(1,1000):
+                Pi = 2*(4*i**2*z**2-1)*np.exp(-2*i**2*z**2)
+                P += Pi 
+                if Pi <= 0.00001:
+                    return D, P
+        return D, P
+    else: 
+        D = np.max((Dmin,Dmax))
+        # Calculate the probability
+        z = (N**0.5+0.12+0.11*N**(-0.5))*D
+        if z < 1.18:
+            P = (2*np.pi)**0.5*((np.exp(-1*np.pi**2/(8*z**2)))+(np.exp(-1*np.pi**2/(8*z**2)))**9+(np.exp(-1*np.pi**2/(8*z**2)))**25)
+        else:
+            P = 1-2*((np.exp(-2*z**2))-(np.exp(-2*z**2))**4+(np.exp(-2*z**2))**9)
+        return D,1-P
+#end KS_test()
+
+def Ks_test_2s(sample1,sample2,mu,sig,Kuip=False):
+    # Implementation of the Kalgorov-Smirnov test
+    N1,N2 = len(sample1),len(sample2)
+    x = np.linspace(mu-5*sig,mu+5*sig,1000)
+    F, G = np.zeros(len(x)), np.zeros(len(x))
+    Dmin,Dmax = 0,0
+    for i in range(len(x)):
+        F[i] = len(sample1[sample1<=x[i]])/N1
+        G[i] = len(sample2[sample2<=x[i]])/N2
+        
+        Dn = F[i] - G[i]
+        if Dn > Dmin:
+            Dmin = Dn
+        Dn = G[i] - F[i]
+        if Dn > Dmax: 
+            Dmax = Dn
+    # Determine the manner in which D is calculated
+    if Kuip:
+        D = Dmin+Dmax
     else: 
         D = np.max((Dmin,Dmax))
     # Calculate the probability
-    z = (N**0.5+0.12+0.11*N**(-0.5))*D
+    z = (N1**0.5+0.12+0.11*N1**(-0.5))*D
     if z < 1.18:
         P = (2*np.pi)**0.5*((np.exp(-1*np.pi**2/(8*z**2)))+(np.exp(-1*np.pi**2/(8*z**2)))**9+(np.exp(-1*np.pi**2/(8*z**2)))**25)
         return D,1-P 
