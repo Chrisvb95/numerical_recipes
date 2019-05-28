@@ -4,6 +4,7 @@ import sys
 from matplotlib import pyplot as plt
 from scipy import stats
 import os
+from astropy.stats import kuiper
 
 # --- Functions and classes ---
 
@@ -205,6 +206,13 @@ def random_field_generator(n,N,rng,mu=0):
     return df
 #end random_field generator()
 
+def gauss_cdf(x):
+        gauss = lambda x : 1/(2*np.pi*sig**2)**0.5*np.exp(-0.5*(x-mu)**2/sig**2)
+        cdf = np.zeros(len(x))
+        for i in range(len(x)):
+            cdf[i] = romber_int(gauss,-5,x[i])
+        return cdf
+
 # --- Commands, prints and plots ---
 if __name__ == '__main__':
     print('--- Exercise 1 ---')
@@ -268,7 +276,7 @@ if __name__ == '__main__':
     mu,sig = 0,1
     rand = box_muller(rng.rand_num(N),rng.rand_num(N),mu,sig)
     gauss = lambda x : 1/(2*np.pi*sig**2)**0.5*np.exp(-0.5*(x-mu)**2/sig**2)
-    n = np.logspace(np.log10(10),np.log10(1000),dtype=int)
+    n = np.logspace(np.log10(10),np.log10(100000),dtype=int)
     # Preparing arrays
     P,P_s = np.zeros(len(n)),np.zeros(len(n))
     d,d_s = np.zeros(len(n)),np.zeros(len(n))
@@ -279,35 +287,39 @@ if __name__ == '__main__':
         d_s[i],P_s[i] = stats.kstest(rand[0],'norm')
     # Plotting
     plt.plot(n,P_s,label='Scipy')
+    plt.scatter(n,P_s)
     plt.plot(n,P,label='Self written')
+    plt.scatter(n,P)
     plt.title('KS-Test')
     plt.ylabel('$P(z)$')
     plt.xlabel('N')
     plt.xscale('log')
-    plt.legend(loc = 'lower right',frameon=False)
-    plt.savefig('plots/1e.png')
+    lgd = plt.legend(loc=2, bbox_to_anchor=(1,1))
+    plt.savefig('plots/1e.png',bbox_inches='tight')
     plt.close()
     print('Generated plots/1e.png')
 
     #---1.d---
     # Kuipers test
     # Preparing arrays
-    kuip_P,kuip_P_s = np.zeros(len(n)),np.zeros(len(n)) 
-    kuip_d,kuip_d_s = np.zeros(len(n)),np.zeros(len(n))
+    kuip_P,kuip_P_ast = np.zeros(len(n)),np.zeros(len(n)) 
+    kuip_d,kuip_d_ast = np.zeros(len(n)),np.zeros(len(n))
+
     # Running test for different values of N
+    rand_bm = box_muller(rng.rand_num(n[-1]),rng.rand_num(n[-1]),mu,sig)   
     for i in range(len(n)):
-        rand = box_muller(rng.rand_num(n[i]),rng.rand_num(n[i]),mu,sig)
-        kuip_d[i],kuip_P[i] = KS_Kuip_test(rand[0],gauss,mu,sig,Kuip=True)
-        kuip_d_s[i],kuip_P_s[i] = stats.kstest(rand[0],'norm')
+        rand = rand_bm[0][:n[i]]
+        kuip_d[i],kuip_P[i] = KS_Kuip_test(rand,gauss,mu,sig,Kuip=True)
+        kuip_d_ast[i],kuip_P_ast[i] = kuiper(rand,gauss_cdf)
     # Plotting
-    plt.plot(n,kuip_P_s,label='Scipy')
+    plt.plot(n,kuip_P_ast,label='Astropy')
     plt.plot(n,kuip_P,label='Self written')
-    plt.title('Scipy KS-Test and self-written Kuiper-Test')
+    plt.title('Astropy Kuiper-Test and self-written Kuiper-Test')
     plt.ylabel('$P(z)$')
     plt.xlabel('N')
     plt.xscale('log')
-    plt.legend(loc = 'upper right',frameon=False)
-    plt.savefig('plots/1f.png')
+    lgd = plt.legend(loc=2, bbox_to_anchor=(1,1))
+    plt.savefig('plots/1f.png', bbox_inches='tight')
     plt.close()
     print('Generated plots/1f.png')
 
@@ -328,14 +340,13 @@ if __name__ == '__main__':
             rand = np.array(random_num[:n[j],i])
             test_D[i][j],test_P[i][j] = KS_Kuip_test(rand,gauss,mu,sig,Kuip=True)
     # Plotting
-    plt.plot(n,kuip_P_s,label='Scipy (KS)',color = 'g')
     for i in range(10):
         plt.plot(n,test_P[i],label = i)
-    plt.title('Scipy KS-Test and self-written Kuiper-Test')
+    plt.title('KS-test performed on given dataset')
     plt.ylabel('$P(z)$')
     plt.xlabel('N')
     plt.xscale('log')
     plt.legend(loc=2, bbox_to_anchor=(1,1))
-    plt.savefig('plots/1g.png')
+    plt.savefig('plots/1g.png',bbox_inches='tight')
     plt.close()
     print('Generated plots/1g.png')

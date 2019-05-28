@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.9)  24 MAY 2019 16:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.9)  28 MAY 2019 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -304,7 +304,11 @@ Package caption Info: subfigure package is loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 ))
-(./tex_main.aux)
+(./tex_main.aux
+
+LaTeX Warning: Label `fig:4ab' multiply defined.
+
+)
 \openout1 = `tex_main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
@@ -373,17 +377,17 @@ e
 \c@lstlisting=\count130
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<./plots/1a.png, id=67, 462.528pt x 346.896pt>
+<./plots/1a.png, id=127, 462.528pt x 346.896pt>
 File: ./plots/1a.png Graphic file (type png)
 <use ./plots/1a.png>
 Package pdftex.def Info: ./plots/1a.png  used on input line 30.
 (pdftex.def)             Requested size: 203.83417pt x 152.87819pt.
-<./plots/1b.png, id=69, 462.528pt x 346.896pt>
+<./plots/1b.png, id=129, 462.528pt x 346.896pt>
 File: ./plots/1b.png Graphic file (type png)
 <use ./plots/1b.png>
 Package pdftex.def Info: ./plots/1b.png  used on input line 34.
 (pdftex.def)             Requested size: 203.83417pt x 152.87819pt.
-<./plots/1c.png, id=70, 462.528pt x 346.896pt>
+<./plots/1c.png, id=130, 462.528pt x 346.896pt>
 File: ./plots/1c.png Graphic file (type png)
 <use ./plots/1c.png>
 Package pdftex.def Info: ./plots/1c.png  used on input line 44.
@@ -392,7 +396,7 @@ Package pdftex.def Info: ./plots/1c.png  used on input line 44.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./plots/1d.png, id=72, 462.528pt x 346.896pt>
+<./plots/1d.png, id=132, 462.528pt x 346.896pt>
 File: ./plots/1d.png Graphic file (type png)
 <use ./plots/1d.png>
 Package pdftex.def Info: ./plots/1d.png  used on input line 54.
@@ -400,11 +404,11 @@ Package pdftex.def Info: ./plots/1d.png  used on input line 54.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./plots/1e.png, id=74, 462.528pt x 346.896pt>
+<./plots/1e.png, id=134, 509.5035pt x 331.7193pt>
 File: ./plots/1e.png Graphic file (type png)
 <use ./plots/1e.png>
 Package pdftex.def Info: ./plots/1e.png  used on input line 72.
-(pdftex.def)             Requested size: 362.37569pt x 271.79521pt.
+(pdftex.def)             Requested size: 362.37569pt x 235.92726pt.
 [1
 
 {/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map} <./plots/1a.
@@ -412,46 +416,51 @@ png> <./plots/1b.png>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./plots/1f.png, id=104, 462.528pt x 346.896pt>
+<./plots/1f.png, id=164, 509.5035pt x 331.7193pt>
 File: ./plots/1f.png Graphic file (type png)
 <use ./plots/1f.png>
 Package pdftex.def Info: ./plots/1f.png  used on input line 83.
-(pdftex.def)             Requested size: 362.37569pt x 271.79521pt.
+(pdftex.def)             Requested size: 362.37569pt x 235.92726pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./plots/1g.png, id=106, 462.528pt x 346.896pt>
+[2 <./plots/1c.png> <./plots/1d.png>]
+<./plots/1g.png, id=173, 462.528pt x 346.896pt>
 File: ./plots/1g.png Graphic file (type png)
 <use ./plots/1g.png>
 Package pdftex.def Info: ./plots/1g.png  used on input line 94.
 (pdftex.def)             Requested size: 362.37569pt x 271.79521pt.
-[2 <./plots/1c.png> <./plots/1d.png>]
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[3 <./plots/1e.png> <./plots/1f.png>] (./a2_1.txt) (./a2_1.py [4 <./plots/1g.pn
-g>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 22.
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+(./a2_1.txt) [3 <./plots/1e.png> <./plots/1f.png>] (./a2_1.py
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 23.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 22.
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 22.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 23.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 23.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <8> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 22.
- [5] [6] [7]) [8]
-<./plots/2.png, id=457, 1060.2009pt x 393.8715pt>
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 23.
+ [4 <./plots/1g.png>]
+[5] [6] [7] [8])
+<./plots/2.png, id=520, 1060.2009pt x 393.8715pt>
 File: ./plots/2.png Graphic file (type png)
 <use ./plots/2.png>
 Package pdftex.def Info: ./plots/2.png  used on input line 124.
 (pdftex.def)             Requested size: 362.37569pt x 134.6237pt.
 
-(./a2_2.txt) (./a2_2.py [9 <./plots/2.png>]) [10]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(./a2_2.txt [9]) (./a2_2.py [10 <./plots/2.png>])
 
 Package caption Warning: \label without proper reference on input line 177.
 See the caption package documentation for explanation.
@@ -459,7 +468,10 @@ See the caption package documentation for explanation.
 
 LaTeX Warning: Reference `tab:3' on page 11 undefined on input line 165.
 
-<./plots/3.png, id=556, 462.528pt x 346.896pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/3.png, id=630, 462.528pt x 346.896pt>
 File: ./plots/3.png Graphic file (type png)
 <use ./plots/3.png>
 Package pdftex.def Info: ./plots/3.png  used on input line 188.
@@ -467,50 +479,195 @@ Package pdftex.def Info: ./plots/3.png  used on input line 188.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-(./a2_3.txt) (./a2_3.py [11] [12 <./plots/3.png>]) [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 273.
- [14]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 273.
+[11] (./a2_3.txt) (./a2_3.py [12 <./plots/3.png>] [13]) [14]
+<./plots/4a.png, id=806, 462.528pt x 346.896pt>
+File: ./plots/4a.png Graphic file (type png)
+<use ./plots/4a.png>
+Package pdftex.def Info: ./plots/4a.png  used on input line 279.
+(pdftex.def)             Requested size: 203.83417pt x 152.87819pt.
+<./plots/4b.png, id=807, 462.528pt x 346.896pt>
+File: ./plots/4b.png Graphic file (type png)
+<use ./plots/4b.png>
+Package pdftex.def Info: ./plots/4b.png  used on input line 283.
+(pdftex.def)             Requested size: 203.83417pt x 152.87819pt.
+<./plots/4c.png, id=808, 462.528pt x 346.896pt>
+File: ./plots/4c.png Graphic file (type png)
+<use ./plots/4c.png>
+Package pdftex.def Info: ./plots/4c.png  used on input line 301.
+(pdftex.def)             Requested size: 203.83417pt x 152.87819pt.
+<./plots/4d.png, id=809, 462.528pt x 346.896pt>
+File: ./plots/4d.png Graphic file (type png)
+<use ./plots/4d.png>
+Package pdftex.def Info: ./plots/4d.png  used on input line 305.
+(pdftex.def)             Requested size: 203.83417pt x 152.87819pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(./a2_4.txt [15 <./plots/4a.png> <./plots/4b.png>]) (./a2_4.py [16 <./plots/4c.
+png> <./plots/4d.png>] [17] [18] [19])
+<./plots/5a.png, id=1101, 628.0263pt x 643.203pt>
+File: ./plots/5a.png Graphic file (type png)
+<use ./plots/5a.png>
+Package pdftex.def Info: ./plots/5a.png  used on input line 332.
+(pdftex.def)             Requested size: 317.07614pt x 324.75116pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/5b.png, id=1103, 462.528pt x 346.896pt>
+File: ./plots/5b.png Graphic file (type png)
+<use ./plots/5b.png>
+Package pdftex.def Info: ./plots/5b.png  used on input line 343.
+(pdftex.def)             Requested size: 317.07614pt x 237.81816pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/5c.png, id=1106, 628.0263pt x 643.203pt>
+File: ./plots/5c.png Graphic file (type png)
+<use ./plots/5c.png>
+Package pdftex.def Info: ./plots/5c.png  used on input line 354.
+(pdftex.def)             Requested size: 317.07614pt x 324.75116pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/5d.png, id=1107, 462.528pt x 346.896pt>
+File: ./plots/5d.png Graphic file (type png)
+<use ./plots/5d.png>
+Package pdftex.def Info: ./plots/5d.png  used on input line 362.
+(pdftex.def)             Requested size: 317.07614pt x 237.81816pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/5e.png, id=1109, 462.528pt x 346.896pt>
+File: ./plots/5e.png Graphic file (type png)
+<use ./plots/5e.png>
+Package pdftex.def Info: ./plots/5e.png  used on input line 373.
+(pdftex.def)             Requested size: 317.07614pt x 237.81816pt.
+[20]
+
+LaTeX Warning: Text page 21 contains only floats.
+
+[21 <./plots/5a.png> <./plots/5b.png>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/5f.png, id=1161, 631.6398pt x 382.3083pt>
+File: ./plots/5f.png Graphic file (type png)
+<use ./plots/5f.png>
+Package pdftex.def Info: ./plots/5f.png  used on input line 384.
+(pdftex.def)             Requested size: 317.07614pt x 191.91786pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/5g.png, id=1162, 663.4386pt x 297.7524pt>
+File: ./plots/5g.png Graphic file (type png)
+<use ./plots/5g.png>
+Package pdftex.def Info: ./plots/5g.png  used on input line 391.
+(pdftex.def)             Requested size: 317.07614pt x 142.31071pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `5h' on page 22 undefined on input line 406.
+
+
+LaTeX Warning: Reference `5i' on page 22 undefined on input line 406.
+
+<./plots/5h.png, id=1163, 628.0263pt x 643.203pt>
+File: ./plots/5h.png Graphic file (type png)
+<use ./plots/5h.png>
+Package pdftex.def Info: ./plots/5h.png  used on input line 410.
+(pdftex.def)             Requested size: 317.07614pt x 324.75116pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./plots/5i.png, id=1164, 628.0263pt x 360.6273pt>
+File: ./plots/5i.png Graphic file (type png)
+<use ./plots/5i.png>
+Package pdftex.def Info: ./plots/5i.png  used on input line 417.
+(pdftex.def)             Requested size: 317.07614pt x 182.07957pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[22 <./plots/5c.png>] [23 <./plots/5d.png> <./plots/5e.png>] (./a2_5.txt)
+(./a2_5.py [24 <./plots/5f.png> <./plots/5g.png>] [25 <./plots/5h.png> <./plots
+/5i.png>] [26] [27] [28] [29] [30] [31])
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 434.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\gamma' on input line 434.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 434.
+
+<./plots/6.png, id=1656, 462.528pt x 346.896pt>
+File: ./plots/6.png Graphic file (type png)
+<use ./plots/6.png>
+Package pdftex.def Info: ./plots/6.png  used on input line 442.
+(pdftex.def)             Requested size: 317.07614pt x 237.81816pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(./a2_6.txt) (./a2_6.py [32] [33 <./plots/6.png>]) [34]
+<./plots/7.png, id=1820, 867.24pt x 578.16pt>
+File: ./plots/7.png Graphic file (type png)
+<use ./plots/7.png>
+Package pdftex.def Info: ./plots/7.png  used on input line 461.
+(pdftex.def)             Requested size: 362.37569pt x 241.58163pt.
+ (./a2_7.txt) (./a2_7.py [35 <./plots/7.png>] [36])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 474.
+ [37]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 474.
  (./tex_main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 273.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 273.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 474.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 474.
 Package rerunfilecheck Info: File `tex_main.out' has not changed.
-(rerunfilecheck)             Checksum: 87CB579B3C178B723B666E102B4C1692;1042.
+(rerunfilecheck)             Checksum: 01AA6A3FEBA10C3DE63ABE89579ADC67;2116.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 273.
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 474.
  ) 
 Here is how much of TeX's memory you used:
- 9501 strings out of 492701
- 138359 string characters out of 6134505
- 709587 words of memory out of 5000000
- 12715 multiletter control sequences out of 15000+600000
- 9982 words of font info for 36 fonts, out of 8000000 for 9000
+ 10980 strings out of 492701
+ 160428 string characters out of 6134505
+ 866587 words of memory out of 5000000
+ 13053 multiletter control sequences out of 15000+600000
+ 11167 words of font info for 40 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 38i,10n,42p,389b,1840s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,10n,42p,804b,1842s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmti8.pfb>
-Output written on tex_main.pdf (14 pages, 1508494 bytes).
+t/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmti8.pfb>
+Output written on tex_main.pdf (37 pages, 2120755 bytes).
 PDF statistics:
- 876 PDF objects out of 1000 (max. 8388607)
- 815 compressed objects within 9 object streams
- 556 named destinations out of 1000 (max. 500000)
- 166 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2386 PDF objects out of 2487 (max. 8388607)
+ 2256 compressed objects within 23 object streams
+ 1661 named destinations out of 1728 (max. 500000)
+ 361 words of extra memory for PDF output out of 10000 (max. 10000000)
 

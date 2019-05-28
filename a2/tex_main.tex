@@ -87,7 +87,7 @@ The same as for the KS-test except that we had to use Kuiper's test. Results can
 
 \subsection{Analysing a dataset}
 
-In this exercise we were tasked with analysing a giving data set using either the KS-test or Kuipers test. The results can be seen in Figure \ref{fig:1g}.
+In this exercise we were tasked with analysing a giving data set using either the KS-test or Kuipers test. The results can be seen in Figure \ref{fig:1g}. We decided to use the KS-Test for this exercise. It appears that the 3rd data set has also been drawn from a normal distribution due to the fact that it is the only one that remains above 0.
 
 \begin{figure}[h!]
   \centering
@@ -268,7 +268,208 @@ The resulting value is: $\dot{D}(1/51) = 1239$ REQUIRE UNITS . The exact number 
 
 \subsection{Evolution of a volume in 2D}
 
- 
+For this exercise we were asked to use the Zeldovich approximation to generate a movie of the evolution of a volume in two dimensions from a scale factor of 0.0025 until a scale factor of 1.0. The movie made for this exercise is called \textit{2D.mp4} and can be found in the directory of this assignment. Besides making the movie we were also asked to plot the position and momentum of the first 10 particles along the $y$-direction vs $a$. These can be seen in Figure \ref{fig:4a} and Figure \ref{fig:4b}. 
+
+\begin{figure}[h!] 
+	\begin{center}
+    	%
+		\subfigure{%
+			\label{fig:4a}
+			\includegraphics[width=0.45\linewidth]{./plots/4a.png}
+		}%
+		\subfigure{%
+			\label{fig:4b}
+			\includegraphics[width=0.45\linewidth]{./plots/4b.png}
+		}
+	\end{center}
+	\captionsetup{width=0.8\linewidth}
+	\vspace*{-7mm} %reduce space between caption and figure
+	\caption{\textit{Left:} Evolution of the momentum of the first 10 particles (in the y-direction).  \textit{Right:} Evolution of the y-coordinates of these same 10 particles. Note how we see in the right figure that the outer particles (~ 6 through 10) seem to be moving towards the other particles. This is also reflected in the evolution of the momentum which increases much faster for the outer particles and eventually slows down once they reach 'the rest'.}
+	\label{fig:4ab}
+\end{figure}
+
+\subsection{Evolution of a volume in 3D}
+
+This task was very similar to the previous task except for the fact that we had to make the simulation in 3D. The movies generated for this are named \textit{3D\_ xy.mp4, 3D\_ xz.mp4} and \textit{3D\_ yz.mp4} for each respective slice. We were also asked to plot the position and momentum of the first 10 particles along the $z$-direction vs $a$. 
+
+\begin{figure}[h!] 
+	\begin{center}
+    	%
+		\subfigure{%
+			\label{fig:4c}
+			\includegraphics[width=0.45\linewidth]{./plots/4c.png}
+		}%
+		\subfigure{%
+			\label{fig:4d}
+			\includegraphics[width=0.45\linewidth]{./plots/4d.png}
+		}
+	\end{center}
+	\captionsetup{width=0.8\linewidth}
+	\vspace*{-7mm} %reduce space between caption and figure
+	\caption{\textit{Left:} Evolution of the momentum of the first 10 particles (in the z-direction).  \textit{Right:} Evolution of the y-coordinates of these same 10 particles. Similarly to the particles in the previous exercise, the momentum appears to accurately reflect their movement. More displacement in the spacial coordinates implicates a steeper curve in the momentum graph.}
+	\label{fig:4ab}
+\end{figure}
+
+\subsection{Scripts}
+
+Here we can see the terminal output of the script used for this exercise:
+\lstinputlisting{a2_4.txt}
+
+Here is the script used to produce these results: 
+\lstinputlisting{a2_4.py}
+
+
+\section{Mass assignment schemes}
+
+The aim of this assignment was to generate a particle mesh that could be used to calculate a density mesh which could then be used to calculate the gravitational forces in our simulation. 
+
+\subsection{Nearest Gird Point method}
+
+The most simple way to approach this problem is the to add the mass of each particle to the grid point that is closest to it (hence the name 'Nearest Grid Point method'). My 3D implementation of this method generated the mesh visible in Figure \ref{fig:5a}. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5a.png}
+  \caption{Four different z-slices of the mesh that was produced using the Nearest Grid Point method.}
+  \label{fig:5a}
+\end{figure}
+
+\subsection{Testing robustness}
+
+In order to test the robustness of the method we were asked to make a plot of the $x$ position of an individual particle and the value in cell 4 and 0 in 1 dimension (where x varied from the lowest to the highest possible value. In order to accomplish this a 1-D version of the algorithm was coded up (see code below). The resulting graph can be seen in Figure \ref{fig:5b}. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5b.png}
+  \caption{Here we see the values of cell 4 and cell 0 as a function of the position of a particle along the x-axis. Note how the cell takes on a value of 1 once the particle is within 0.5 cell sizes of it's center. This indicates that the code is working properly.}
+  \label{fig:5b}
+\end{figure}
+
+\subsection{The Cloud in Cell method}
+
+In the Cloud in Cell method the mass of the particle is distributed among the nearest cells according to how close they are to the particle. The nearer the cell is to a particle, the higher the percentage of the mass assigned to the cell. The implementation of this code can be found below. The z-slices produced using this method may be seen in Figure \ref{fig:5c}. Finally its robustness is assessed using the plot found in Figure \ref{fig:5d}. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5c.png}
+  \caption{Four different z-slices of the mesh that was produced using the Cloud in Cell method. Note how the mass in this mesh is far more spread out than in the one produced using the NGP method.}
+  \label{fig:5c}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5d.png}
+  \caption{Here we see the values of cell 4 and cell 0 as a function of the position of a particle along the x-axis. Note how the cells gradually take on more and more of the percentage of the mass of the particle, peaking at 1 when the particle is located at the exact same spot as the cell. After this the value gradually drops back down to 0.  This indicates that the code is working as intended.}
+  \label{fig:5d}
+\end{figure}
+
+\subsection{1D Fast Fourier Transform Algorithm}
+
+For this exercise the Cooley-Tukey algorithm was used. In Figure \ref{fig:5e} we can see that the 'self-written' algorithm produces the same values as the numpy.fft package and the analytical values. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5e.png}
+  \caption{Plot of the Fourier transform of a $cos(t)$ function as calculated with three different methods. Note how they all appear to give the same values.}
+  \label{fig:5e}
+\end{figure}
+
+\subsection{2D and 3D Fast Fourier Transform Algorithms}
+
+The next task was to generalize the FFT to 2 and 3 dimensions. The 2D transform was then to be tested by comparing it with the analytical FFT of the same function. These can be seen in Figure \ref{fig:5f}. For the 3D FFT we were to make a plot of a 3D multivariate Gaussian function and plot the 3 slices centered at the center for the three different slice options $x-y, x-z$ and $y-z$. These can be seen in Figure \ref{fig:5g}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5f.png}
+  \caption{Plot of the 2D transform.}
+  \label{fig:5f}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5g.png}
+  \caption{Slices of the 3D transform of a multivariate Gaussian.}
+  \label{fig:5g}
+\end{figure}
+
+\subsection{Calculating the potential for the given particles}
+
+For this exercise we were given an equation which we could use to calculate the potential for the given particles. Implementing this required to following thee steps: 
+
+\begin{enumerate}
+	\item Taking the Fourier transform of the $\delta$, where $\delta$ is the density distribution (the calculated mesh). 
+	\item Dividing the result by $k^2$. 
+	\item Applying the inverse Fourier transform.  
+\end{enumerate}
+
+The implementation of these steps may be found in the code below. The resulting slices can be seen in Figure \ref{5h} and Figure \ref{5i}. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5h.png}
+  \caption{Plot of the 2D transform of $cos(x,y)$ function.}
+  \label{fig:5h}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/5i.png}
+  \caption{Slices of the 3D transform of a multivariate Gaussian.}
+  \label{fig:5i}
+\end{figure}
+
+\subsection{Calculating the potential gradient for the particles}
+
+Now that we had the potential field, we could use it to calculate the gradient of the potential for the first 10 particles. In order to implement this, the gradient was calculated using the central difference method. Afterwards the potential was assigned to the particles using a sort of 'reverse CiC' algorithm. The code can once again be found below as well as the output of the gradients values for the 10 first particles. 
+
+\subsection{Scripts}
+
+Here we can see the terminal output of the script used for this exercise:
+\lstinputlisting{a2_5.txt}
+
+Here is the script used to produce these results: 
+\lstinputlisting{a2_5.py}
+
+\section{Classifying $\gamma$-ray bursts}
+
+Using the given dataset we were asked to use logistic regression to make a model of the data, using a binary classification for short (0) or long (1) GRB's. 
+
+In order to accomplish this, the data first had to be cleaned up a bit. We threw out all the rows that were not classified as GRB's in the first place. We dealt with the missing data by simply setting those values to 0 (instead of -1). The time (T90) was used in order to produce the labels for the data, but was also thrown out once this was done. The remaining data was then split up into a training and a test set (80\% and 20\% respectively). In Figure \ref{fig:6} we can see the results. After 4000 epochs we reached an accuracy of $69.3\%$ on the training set, $70.5\%$ on the test set and $69.5\%$ on the entire data set. Training for more epochs would result in a drop of accuracy in the test set, meaning that the models was probably over fitting at that point.  
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.7\linewidth]{./plots/6.png}
+  \caption{These are the results of the classifier after 4000 training epochs. Label 0 represents the short bursts while 1 represents the long bursts.}
+  \label{fig:6}
+\end{figure}
+
+\subsection{Scripts}
+
+Here we can see the terminal output of the script used for this exercise:
+\lstinputlisting{a2_6.txt}
+
+Here is the script used to produce these results: 
+\lstinputlisting{a2_6.py}
+
+\section{Building a quadtree}
+
+For this exercise our goal was to build a Barnes-Hut quadtree with at most 12 particles per leaf node. When writing the code for this exercise I based my class object structure on the one used in this online example: \textit{https://kpully.github.io/Quadtrees/}. The particles and their corresponding nodes are plotted in Figure \ref{fig:7}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./plots/7.png}
+  \caption{In this figure we can see the Barnes Hut Quadtree built for the given dataset.}
+  \label{fig:7}
+\end{figure}
+
+\subsection{Scripts}
+
+Here we can see the terminal output of the script used for this exercise:
+\lstinputlisting{a2_7.txt}
+
+Here is the script used to produce these results: 
+\lstinputlisting{a2_7.py}
 
 \end{document}
 

@@ -1,0 +1,12 @@
+--- Exercise 5 ---
+Seed: 627310980
+Iterations:4000
+Training set
+Accuracy:69.3%
+
+Test set
+Accuracy:70.5%
+
+Entire data set
+Accuracy:69.5%
+

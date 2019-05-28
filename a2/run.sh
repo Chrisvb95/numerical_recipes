@@ -14,8 +14,8 @@ if [ ! -d "plots" ]; then
 fi
 
 # First task of the assignemnt 
-#echo "Running: a2_1.py"
-#python3 a2_1.py > a2_1.txt
+echo "Running: a2_1.py"
+python3 a2_1.py > a2_1.txt
 
 # Second task of the assignment
 #echo "Running: a2_2.py"
@@ -43,8 +43,12 @@ fi
 #python3 a2_5.py > a2_5.txt
 
 # Sixth task of the assignment
-echo "Running: a2_6.py"
-python3 a2_6.py > a2_6.py
+#echo "Running: a2_6.py"
+#python3 a2_6.py > a2_6.txt
+
+# Seventh task of the assignment
+#echo "Running: a2_7.py"
+#python3 a2_7.py > a2_7.txt
 
 #echo "Generating the pdf"
 
